@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81564152c8d3e8f498090a5b9b5f4706, type: 3}
   m_Name: Checkmark
   m_EditorClassIdentifier: 
+  itemName: Block
   image: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  stackable: 1
+  isStackable: 0
+  isUsableItem: 0
+  damageNumber: 0
+  durability: 10

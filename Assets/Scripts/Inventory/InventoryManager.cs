@@ -74,7 +74,7 @@ public class InventoryManager : MonoBehaviour
             if(use){
                 itemInSlot.count--;
                 if(itemInSlot.count <= 0){
-                    Destroy(itemInSlot.gameObject);
+                    //Destroy(itemInSlot.gameObject);
                 } else {
                     itemInSlot.RefreshCount();
                 }
