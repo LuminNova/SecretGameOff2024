@@ -7,8 +7,10 @@ public class ItemBehaviour : MonoBehaviour
     public Transform player;
     public float range;
 
-    void Start(){
+    private int originalDurability;
 
+    void Start(){
+        originalDurability = item.durability; 
     }
 
     void Update(){
@@ -37,9 +39,11 @@ public class ItemBehaviour : MonoBehaviour
             if(useItem.isUsableItem){
                 // Destroy the item after pickup
                 Debug.Log("game object is being damaged");
+                transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.left * 3, 1 * Time.deltaTime);
                 item.durability = item.durability - useItem.damageNumber;
                 Debug.Log("New Item durability = " + item.durability);
                 if(item.durability <= 0){
+                    item.durability = originalDurability;
                     Destroy(gameObject);
                 }
             } else {
