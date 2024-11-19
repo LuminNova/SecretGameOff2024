@@ -3,7 +3,7 @@ using System;
 
 public class Movement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     public float speed;
     public float jump;
     private float move;
