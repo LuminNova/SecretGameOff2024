@@ -5,6 +5,7 @@ public class Movement : MonoBehaviour
 {
     
     public float speed;
+    private float initialSpeed;
     public float jump;
     private float move;
     private Rigidbody2D rb;
@@ -14,6 +15,7 @@ public class Movement : MonoBehaviour
     // public Collider2D 
     void Start()
     {
+        initialSpeed = speed;
         move = 0;
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
@@ -28,6 +30,13 @@ public class Movement : MonoBehaviour
 
         FlipSprite();
 
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded) {
+            speed *= 2;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift) && isGrounded) {
+            speed = initialSpeed;
+        }
         myAnimator.SetFloat("Speed", Mathf.Abs(move));
 
 
@@ -37,6 +46,7 @@ public class Movement : MonoBehaviour
             isGrounded = false;
             myAnimator.SetBool("isJumping", true);
         }
+
 
     }
 
