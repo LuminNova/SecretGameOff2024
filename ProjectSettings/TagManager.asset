@@ -3,8 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags:
-  - PickupItem
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -41,6 +40,21 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: really back
+    uniqueID: 2723534353
+    locked: 0
+  - name: back
+    uniqueID: 531965611
+    locked: 0
+  - name: middle
+    uniqueID: 2873025293
+    locked: 0
+  - name: front
+    uniqueID: 2002553427
+    locked: 0
+  - name: player
+    uniqueID: 879835955
     locked: 0
   m_RenderingLayers:
   - Default
