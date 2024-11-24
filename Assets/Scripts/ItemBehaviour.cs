@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -31,7 +33,7 @@ public class ItemBehaviour : MonoBehaviour
         }
 
         // Damage item and destroy when broken with (temporarily using) Respawn tag
-        if ((player.position-gameObject.transform.position).magnitude < range && gameObject.CompareTag("Respawn")) // Vector3.Distance() is also possible
+        if ((player.position-gameObject.transform.position).magnitude < range && gameObject.CompareTag("BreakableItem")) // Vector3.Distance() is also possible
         {
             // Item being used
             Debug.Log("Damage item");
@@ -41,9 +43,8 @@ public class ItemBehaviour : MonoBehaviour
             if(useItem.isUsableItem){
                 Debug.Log("game object is being damaged");
 
-                // Attempting to make item that is being hit, shake (it's not working)
-                //transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.left * 3, 1 * Time.deltaTime);
-                
+                StartCoroutine(ExecuteSequentialTasks());
+
                 item.durability = item.durability - useItem.damageNumber;
                 Debug.Log("New Item durability = " + item.durability);
                 
@@ -56,6 +57,45 @@ public class ItemBehaviour : MonoBehaviour
                 Debug.Log("Item is not useable");
             }
         }
+    }
+
+    IEnumerator ExecuteSequentialTasks(){
+        // Start Task A and wait for it to finish
+        yield return StartCoroutine(LerpPosition(transform.position, transform.position + new Vector3(-.1f,0,0), .05f));
+
+        // Start Task B and wait for it to finish
+        yield return StartCoroutine(LerpPosition(transform.position, transform.position + new Vector3(.2f,0,0), .05f));
+
+        // Start Task C and wait for it to finish
+        yield return StartCoroutine(LerpPosition(transform.position, transform.position + new Vector3(-.1f,0,0), .05f));
+    }
+
+    IEnumerator LerpPosition(Vector3 start, Vector3 end, float duration){
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            // Calculate the interpolation factor
+            float t = elapsedTime / duration;
+
+            // Interpolate position
+            transform.position = Vector3.Lerp(start, end, t);
+
+            // Increment elapsed time
+            elapsedTime += Time.deltaTime;
+
+            // Wait until the next frame
+            yield return null;
+        }
+
+        // Ensure the final position is exactly the target position
+        transform.position = end;
+    }
+
+
+    void OnApplicationQuit()
+    {
+        item.durability = originalDurability;
     }
 
     // When player (Player tag) touches an object
