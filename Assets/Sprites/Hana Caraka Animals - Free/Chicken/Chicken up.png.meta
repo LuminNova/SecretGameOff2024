@@ -372,7 +372,17 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Chicken up_0: -8914227280487164595
+      Chicken up_1: -2998519376483291185
+      Chicken up_2: 5324017171879588072
+      Chicken up_3: -6724583953492604985
+      Chicken up_4: -2786907998947782208
+      Chicken up_5: -4250478180366719791
+      Chicken up_6: 7637178997988228737
+      Chicken up_7: 956844610811038524
+      Chicken up_8: 6202541891941012122
+      Chicken up_9: -668044010199007836
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
