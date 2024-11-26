@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Down
   m_EditorClassIdentifier: 
   itemName: Tool
-  image: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  image: {fileID: -8469204400738329757, guid: 7d2e76af17fcede409cb75183e4ff593, type: 3}
   isStackable: 0
   isUsableItem: 1
   damageNumber: 5

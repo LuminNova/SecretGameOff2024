@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Checkmark
   m_EditorClassIdentifier: 
   itemName: Block
-  image: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  image: {fileID: 2644518445972849073, guid: b13fffce498e9c84f8ec1201331ef6d9, type: 3}
   isStackable: 1
   isUsableItem: 0
   damageNumber: 0
