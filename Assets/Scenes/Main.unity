@@ -94628,6 +94628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1348673757}
+  deathParticle: {fileID: 8331763591496932781, guid: db62756d51dc21742ae07c022d238f69, type: 3}
   respawnPoint: {fileID: 65977572}
   checkPoint: {fileID: 1504941132}
 --- !u!1 &1351524362
@@ -95065,7 +95066,7 @@ Transform:
   m_GameObject: {fileID: 1504941129}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.47, y: -0.93, z: 0}
+  m_LocalPosition: {x: -25.47, y: -0.91, z: 0}
   m_LocalScale: {x: 1, y: 1.0076691, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95846,11 +95847,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6197755865046647912, guid: efa70a228a6c27746877cefd7b10b0dd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -993.03
+      value: -976.96
       objectReference: {fileID: 0}
     - target: {fileID: 6197755865046647912, guid: efa70a228a6c27746877cefd7b10b0dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -545.57
+      value: -542.49
       objectReference: {fileID: 0}
     - target: {fileID: 6197755865046647912, guid: efa70a228a6c27746877cefd7b10b0dd, type: 3}
       propertyPath: m_LocalPosition.z
