@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class KillPlayer : MonoBehaviour
 {
     public GameObject player;
     public Transform respawnPoint;
+
+    public Transform checkPoint;
     SpriteRenderer playerSprite;
     Rigidbody2D playerRB;
 
@@ -35,5 +38,19 @@ public class KillPlayer : MonoBehaviour
         yield return new WaitForSeconds(duration);
         player.transform.position = respawnPoint.position;
         playerSprite.enabled = true;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Checkpoint")
+        {
+            Debug.Log("enter checkpoint");
+            updateRespawn();
+        }
+    }
+
+    void updateRespawn()
+    {
+        respawnPoint.position = checkPoint.transform.position;
     }
 }
