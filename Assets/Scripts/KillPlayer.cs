@@ -7,7 +7,6 @@ public class KillPlayer : MonoBehaviour
     public GameObject player;
     public GameObject deathParticle;
     public Transform respawnPoint;
-    public Transform checkPoint;
     SpriteRenderer playerSprite;
     Rigidbody2D playerRB;
 
@@ -42,18 +41,9 @@ public class KillPlayer : MonoBehaviour
         playerSprite.enabled = true;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    public void updateRespawn(Vector3 pos)
     {
-        if (other.gameObject.tag == "Checkpoint")
-        {
-            Debug.Log("enter checkpoint");
-            updateRespawn();
-        }
-    }
-
-    void updateRespawn()
-    {
-        respawnPoint.position = checkPoint.transform.position;
+        respawnPoint.position = pos;
     }
 
     void spawnDeathParticle()
