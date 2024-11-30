@@ -16,6 +16,8 @@ public class ItemBehaviour : MonoBehaviour
 
     private int originalDurability;
 
+    private bool fallen = false;
+
     void Start(){
         originalDurability = item.durability; 
     }
@@ -39,8 +41,11 @@ public class ItemBehaviour : MonoBehaviour
 
         if ((player.position-gameObject.transform.position).magnitude < range && gameObject.CompareTag("Shake"))
         {
-            if(transform.childCount == 2){
+            if(transform.childCount == 2 && fallen == false){
+                movingItem.transform.SetParent(null);
+                StartCoroutine(ExecuteSequentialTasks());
                 StartCoroutine(ItemDropping(movingItem.transform.position, movingItem.transform.position + new Vector3(0,dropDistance,0), .5f));
+                fallen = true;
             } else {
                 itemInteraction();
             }
