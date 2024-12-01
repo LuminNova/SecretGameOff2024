@@ -180,5 +180,16 @@ public class ItemBehaviour : MonoBehaviour
                 Debug.Log("Inventory full");
             }
         }
+
+        if (other.CompareTag("Player") && gameObject.CompareTag("Flag")) // Ensure your player GameObject has the "Player" tag
+        {
+            // Perform any actions you want, like adding points, updating inventory, etc.
+            Debug.Log("Player picked up the item!");
+
+        
+            chickenSecret.SecretCount(1);
+            Destroy(gameObject);
+            
+        }
     }
 }

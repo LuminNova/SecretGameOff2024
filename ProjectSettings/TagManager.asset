@@ -11,6 +11,7 @@ TagManager:
   - Shake
   - Wings
   - Secret
+  - Flag
   layers:
   - Default
   - TransparentFX
