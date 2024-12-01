@@ -25,6 +25,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // Update selected slot colour
     public void ChangeSelectedSlot(int newValue){
         if(selectedSlot >= 0){
             inventorySlots[selectedSlot].Deselect();
@@ -59,6 +60,7 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
+    // For Testing
     public void SpawnNewItem(Item item, InventorySlot slot){
         GameObject newItemGameObject = Instantiate(inventoryItemPrefab, slot.transform);
         InventoryItem inventoryItem = newItemGameObject.GetComponent<InventoryItem>();
@@ -66,6 +68,7 @@ public class InventoryManager : MonoBehaviour
     
     }
 
+    // Get item in selected slot or null item
     public Item GetSelectedItem(bool use){
         InventorySlot slot = inventorySlots[selectedSlot];
         InventoryItem itemInSlot =  slot.GetComponentInChildren<InventoryItem>();

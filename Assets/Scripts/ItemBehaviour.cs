@@ -9,11 +9,20 @@ public class ItemBehaviour : MonoBehaviour
     public Item item;
     public Transform player;
     public float range;
+
+    public GameObject movingItem;
+
+    [SerializeField]
+    private float dropDistance;
+
+    private bool fallen;
+
     private int originalDurability;
     void Start()
     {
         originalDurability = item.durability;
         chickenSecret = SecretManager.instance;
+        fallen = false;
     }
 
     void Update()
@@ -25,7 +34,7 @@ public class ItemBehaviour : MonoBehaviour
         Debug.Log("Mouse Clicked");
 
         // Pickup item with tag PickupItem
-        if ((player.position - gameObject.transform.position).magnitude < range && gameObject.CompareTag("PickupItem")) // Vector3.Distance() is also possible
+        if ((player.position-gameObject.transform.position).magnitude < range && gameObject.CompareTag("PickupItem"))
         {
             if (InventoryManager.instance.AddItem(item))
             {
@@ -38,43 +47,79 @@ public class ItemBehaviour : MonoBehaviour
             }
         }
 
-        // Damage item and destroy when broken with (temporarily using) Respawn tag
-        if ((player.position - gameObject.transform.position).magnitude < range && gameObject.CompareTag("BreakableItem")) // Vector3.Distance() is also possible
+        // Item falling out of tree
+        if ((player.position-gameObject.transform.position).magnitude < range && gameObject.CompareTag("Shake"))
         {
-            // Item being used
-            Debug.Log("Damage item");
-            Item useItem = InventoryManager.instance.GetSelectedItem(true); // use item
-
-            Debug.Log("Item being used: " + useItem);
-            if (useItem.isUsableItem)
-            {
-                Debug.Log("game object is being damaged");
-
+            if(transform.childCount == 2 && fallen == false){
+                StartCoroutine(ItemDropping(movingItem.transform.position, movingItem.transform.position + new Vector3(0,dropDistance,0), .5f));
+                movingItem.transform.SetParent(null);
                 StartCoroutine(ExecuteSequentialTasks());
-
-                item.durability = item.durability - useItem.damageNumber;
-                Debug.Log("New Item durability = " + item.durability);
-
-                if (item.durability <= 0)
-                {
-                    // Reset item durability
-                    item.durability = originalDurability;
-                    Destroy(gameObject);
-                }
+                fallen = true;
+            } else {
+                itemInteraction();
             }
-            else
-            {
-                Debug.Log("Item is not useable");
-            }
-
-            if (item.durability == 1)
-            {
-                InventoryManager.instance.AddItem(item);
-                chickenSecret.SecretCount(1);
-                Destroy(gameObject);
-            }
+            
         }
 
+        // Damage item and destroy when broken with (temporarily using) Respawn tag
+        if ((player.position-gameObject.transform.position).magnitude < range && gameObject.CompareTag("BreakableItem")) 
+        {
+            itemInteraction();
+        }
+    }
+
+    public void itemInteraction(){
+        // Item being used
+        Debug.Log("Damage item");
+        Item useItem = InventoryManager.instance.GetSelectedItem(true); // use item
+        if(useItem == null){
+            StartCoroutine(ExecuteSequentialTasks());
+            return;
+        }
+
+        Debug.Log("Item being used: " + useItem);
+        if(useItem.isUsableItem){
+            Debug.Log("game object is being damaged");
+
+            // shake
+            StartCoroutine(ExecuteSequentialTasks());
+
+            item.durability = item.durability - useItem.damageNumber;
+            Debug.Log("New Item durability = " + item.durability);
+            
+            if(item.durability <= 0){
+                // Reset item durability
+                item.durability = originalDurability;
+                Destroy(gameObject);
+            }
+        } else {
+            Debug.Log("Item is not useable");
+        }
+
+        if (item.durability == 1)
+        {
+            InventoryManager.instance.AddItem(item);
+            chickenSecret.SecretCount(1);
+            Destroy(gameObject);
+        }
+    }
+
+    IEnumerator ItemDropping(Vector3 start, Vector3 end, float duration)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+
+            movingItem.transform.position = Vector3.Lerp(start, end, t);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        movingItem.transform.position = end;
     }
 
     IEnumerator ExecuteSequentialTasks()
@@ -95,23 +140,17 @@ public class ItemBehaviour : MonoBehaviour
 
         while (elapsedTime < duration)
         {
-            // Calculate the interpolation factor
             float t = elapsedTime / duration;
 
-            // Interpolate position
             transform.position = Vector3.Lerp(start, end, t);
 
-            // Increment elapsed time
             elapsedTime += Time.deltaTime;
 
-            // Wait until the next frame
             yield return null;
         }
 
-        // Ensure the final position is exactly the target position
         transform.position = end;
     }
-
 
     void OnApplicationQuit()
     {

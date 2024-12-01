@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Testing script
 public class DemoScript : MonoBehaviour
 {
     public InventoryManager inventoryManager;

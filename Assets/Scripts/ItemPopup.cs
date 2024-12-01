@@ -7,8 +7,9 @@ public class ItemPopup : MonoBehaviour
     private void Start()
     {
         // Ensure the popup is hidden at the start
-        if (popupUI != null)
+        if (popupUI != null){
             popupUI.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
