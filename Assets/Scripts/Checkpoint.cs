@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem.Android.LowLevel;
 
 public class Checkpoint : MonoBehaviour
 {
