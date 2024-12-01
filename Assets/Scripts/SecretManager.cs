@@ -15,7 +15,6 @@ public class SecretManager : MonoBehaviour
 
     private void OnGUI() {
         secretDisplay.text = secretCount.ToString();
-        Debug.Log(secretCount.ToString());
     }
     public void SecretCount(int num) {
         secretCount += num;
