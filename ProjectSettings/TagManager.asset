@@ -8,6 +8,7 @@ TagManager:
   - PickupItem
   - BreakableItem
   - Checkpoint
+  - Wings
   layers:
   - Default
   - TransparentFX

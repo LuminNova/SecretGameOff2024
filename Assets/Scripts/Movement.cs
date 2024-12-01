@@ -3,7 +3,7 @@ using System;
 
 public class Movement : MonoBehaviour
 {
-    
+
     public float speed;
     private float initialSpeed;
     public float jump;
@@ -13,6 +13,10 @@ public class Movement : MonoBehaviour
     private bool isGrounded;
     private bool isFacingRight;
     // public Collider2D 
+    public GameObject wings;
+    public bool canFly;
+
+
     void Start()
     {
         initialSpeed = speed;
@@ -21,6 +25,7 @@ public class Movement : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         isGrounded = false;
         isFacingRight = true;
+        canFly = false;
     }
 
     // Update is called once per frame
@@ -30,18 +35,21 @@ public class Movement : MonoBehaviour
 
         FlipSprite();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded) {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
+        {
             speed *= 2;
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift) && isGrounded) {
+        if (Input.GetKeyUp(KeyCode.LeftShift) && isGrounded)
+        {
             speed = initialSpeed;
         }
         myAnimator.SetFloat("Speed", Mathf.Abs(move));
 
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && (isGrounded || canFly))
         {
+            rb.linearVelocityY = 0;
             rb.AddForce(new Vector2(rb.linearVelocity.x, jump));
             isGrounded = false;
             myAnimator.SetBool("isJumping", true);
@@ -70,7 +78,29 @@ public class Movement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        myAnimator.SetBool("isJumping", false);
-        isGrounded = true;
+        if (collision.tag != "Checkpoint")
+        {
+
+            myAnimator.SetBool("isJumping", false);
+            if (canFly == false)
+            {
+                isGrounded = true;
+            }
+        }
+
+        if (collision.tag == "Wings")
+        {
+            canFly = true;
+            wings.GetComponentInChildren<Renderer>().enabled = false;
+            checkFlight();
+        }
+    }
+
+    private void checkFlight()
+    {
+        if (canFly == true)
+        {
+            isGrounded = false;
+        }
     }
 }
