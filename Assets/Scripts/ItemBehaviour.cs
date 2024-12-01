@@ -16,10 +16,11 @@ public class ItemBehaviour : MonoBehaviour
 
     private int originalDurability;
 
-    private bool fallen = false;
+    private bool fallen;
 
     void Start(){
         originalDurability = item.durability; 
+        fallen = false;
     }
 
     void Update(){
@@ -39,12 +40,13 @@ public class ItemBehaviour : MonoBehaviour
             }
         }
 
+        // Item falling out of tree
         if ((player.position-gameObject.transform.position).magnitude < range && gameObject.CompareTag("Shake"))
         {
             if(transform.childCount == 2 && fallen == false){
+                StartCoroutine(ItemDropping(movingItem.transform.position, movingItem.transform.position + new Vector3(0,dropDistance,0), .5f));
                 movingItem.transform.SetParent(null);
                 StartCoroutine(ExecuteSequentialTasks());
-                StartCoroutine(ItemDropping(movingItem.transform.position, movingItem.transform.position + new Vector3(0,dropDistance,0), .5f));
                 fallen = true;
             } else {
                 itemInteraction();
@@ -94,20 +96,15 @@ public class ItemBehaviour : MonoBehaviour
 
         while (elapsedTime < duration)
         {
-            // Calculate the interpolation factor
             float t = elapsedTime / duration;
 
-            // Interpolate position
             movingItem.transform.position = Vector3.Lerp(start, end, t);
 
-            // Increment elapsed time
             elapsedTime += Time.deltaTime;
 
-            // Wait until the next frame
             yield return null;
         }
 
-        // Ensure the final position is exactly the target position
         movingItem.transform.position = end;
     }
 
@@ -127,34 +124,28 @@ public class ItemBehaviour : MonoBehaviour
 
         while (elapsedTime < duration)
         {
-            // Calculate the interpolation factor
             float t = elapsedTime / duration;
 
-            // Interpolate position
             transform.position = Vector3.Lerp(start, end, t);
 
-            // Increment elapsed time
             elapsedTime += Time.deltaTime;
 
-            // Wait until the next frame
             yield return null;
         }
 
-        // Ensure the final position is exactly the target position
         transform.position = end;
     }
-
 
     void OnApplicationQuit()
     {
         item.durability = originalDurability;
     }
 
-    // When player (Player tag) touches an object
+    // When player (Player tag) touches an object -> Destory
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Check if the player is colliding with the item
-        if (other.CompareTag("Player") && gameObject.CompareTag("EditorOnly")) // Ensure your player GameObject has the "Player" tag
+        if (other.CompareTag("Player") && gameObject.CompareTag("EditorOnly")) // Flag tag (temporarily EditorOnly tag)
         {
             // Perform any actions you want, like adding points, updating inventory, etc.
             // Debug.Log("Player picked up the item!");
