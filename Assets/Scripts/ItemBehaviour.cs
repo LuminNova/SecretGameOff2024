@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class ItemBehaviour : MonoBehaviour
 {
+    public SecretManager chickenSecret;
     public Item item;
     public Transform player;
     public float range;
-
     private int originalDurability;
-
     void Start(){
         originalDurability = item.durability; 
+        chickenSecret = SecretManager.instance;
     }
 
     void Update(){
@@ -56,7 +56,14 @@ public class ItemBehaviour : MonoBehaviour
             } else {
                 Debug.Log("Item is not useable");
             }
+
+            if (item.durability == 1) {
+                InventoryManager.instance.AddItem(item);
+                chickenSecret.SecretCount(1);
+                Destroy(gameObject);
+            }
         }
+
     }
 
     IEnumerator ExecuteSequentialTasks(){
