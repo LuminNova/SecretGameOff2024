@@ -83,7 +83,7 @@ public class ItemBehaviour : MonoBehaviour
 
             // shake
             StartCoroutine(ExecuteSequentialTasks());
-
+            
             item.durability = item.durability - useItem.damageNumber;
             Debug.Log("New Item durability = " + item.durability);
             
@@ -91,16 +91,19 @@ public class ItemBehaviour : MonoBehaviour
                 // Reset item durability
                 item.durability = originalDurability;
                 Destroy(gameObject);
+                Debug.Log("bomb" + item.durability);
             }
+
+            if (item.durability == 1) {
+                InventoryManager.instance.AddItem(item);
+                chickenSecret.SecretCount(1);
+                item.durability = originalDurability;
+                Destroy(gameObject);
+                Debug.Log("rose" + item.durability);
+            }
+
         } else {
             Debug.Log("Item is not useable");
-        }
-
-        if (item.durability == 1)
-        {
-            InventoryManager.instance.AddItem(item);
-            chickenSecret.SecretCount(1);
-            Destroy(gameObject);
         }
     }
 
